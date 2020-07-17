@@ -14,15 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'EventController@home');
+Route::post('/', 'EventController@joinEvent');
 
 Route::get('/createevent', 'EventController@showCreateEvent');
 Route::post('/createevent', 'EventController@createEvent');
-//Route::get('/home', 'EventController@home');
 
 Route::get('/event/{id}', 'EventController@viewEvent');
 
 Route::get('/login', 'EventController@showLogin');
 Route::post('/login', 'EventController@login');
+Route::get('/logout', 'EventController@logout');
 
 Route::get('/register', 'EventController@showRegister');
 Route::post('/register', 'EventController@registerStudent');

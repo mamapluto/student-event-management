@@ -17,8 +17,8 @@ class CreateEventsTable extends Migration
             $table->id('event_id');
             $table->timestamps();
             $table->string('event_name');
-            //$table->string('event_type');
             $table->string('event_desc');
+            $table->string('event_type');
             $table->string('event_location');
             $table->date('event_date');
             $table->string('event_startTime');
@@ -28,7 +28,6 @@ class CreateEventsTable extends Migration
             $table->integer('event_organizer');
             $table->integer('event_status');
             //$table->string('event_contact');
-            //$table->json('event_participants');
         });
     }
 
