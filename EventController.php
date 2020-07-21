@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Student;
 use App\Event;
+use App\Admin;
 use App\Participant;
 
 class EventController extends Controller
@@ -20,7 +21,19 @@ class EventController extends Controller
         return view('home', [
             'eventlist' => $eventlist,
             'participantlist' => $participantlist,
+            'participantRemain' => $this->getRemainingParticipants($eventlist),
         ]);
+    }
+    //Get remaining participants for each event
+    public function getRemainingParticipants($eventlist) {
+        $participantRemain = array();
+
+        foreach($eventlist as $event) {
+            $remain = $event->event_participantNo - Participant::where('event_id','=',$event->id)->count();
+            $participantRemain += [$event->id => $remain];
+        }
+
+        return $participantRemain;
     }
     //Join event
     public function joinEvent(Request $request) {
@@ -46,9 +59,39 @@ class EventController extends Controller
             //redirect to login page if not logged in
             return view('login');
         }
-        
     }
 
+    /* Admin panel */
+    //Validate admin status (appears to be not working for some reason)
+    public function adminValidate(Request $request) {
+        if (!$request->session()->get('admin')) {
+            return redirect('/');
+        }
+    }
+    //Show events table for admin
+    public function adminEventStatus(Request $request) {
+        $this->adminValidate($request);
+        $eventlist = Event::all();
+        $participantlist = Participant::all();
+
+        return view('admin_eventstatus', [
+            'eventlist' => $eventlist,
+            'participantlist' => $participantlist,
+            'participantRemain' => $this->getRemainingParticipants($eventlist),
+        ]);
+    }
+    //Update event status
+    public function updateStatus(Request $request) {
+        if ($event = Event::find(request('event_id'))) {
+            $event->event_status = request('new_status');
+
+            $event->update();
+            return redirect('/admin_eventstatus');
+        }
+    }
+    public function adminCreateEvent(Request $request) {
+        return view('admin_createevent');
+    }
     public function showCreateEvent(Request $request) {
         if ($request->session()->get('user_id')) {
             return view('createevent');
@@ -72,11 +115,9 @@ class EventController extends Controller
         $event->event_organizer = $request->session()->get('user_id');
         $event->event_status = 0;
 
-        error_log($event);
-
         $event->save();
 
-        return redirect('/');
+        return redirect('/admin_eventstatus');
     }
 
     public function viewEvent($id) {
@@ -91,6 +132,7 @@ class EventController extends Controller
             if ($student->student_password == request('password')) {
                 $request->session()->put('user_id', $student->student_id);
                 $request->session()->put('user_name', $student->student_name);
+                $request->session()->put('admin', 0);
                 
                 return redirect('/');
             } else {
@@ -104,6 +146,24 @@ class EventController extends Controller
         $request->session()->forget('user_id');
 
         return redirect('/');
+    }
+    public function showAdminLogin() {
+        return view('adminlogin');
+    }
+    public function adminLogin(Request $request) {
+        if ($admin = Admin::where('admin_name', request('username'))->first()) {
+            if ($admin->admin_password == request('password')) {
+                $request->session()->put('user_id', $admin->admin_id);
+                $request->session()->put('user_name', $admin->admin_name);
+                $request->session()->put('admin', 1);
+                
+                return redirect('/admin');
+            } else {
+                return redirect()->back()->with('error', 'Incorrect password');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Admin not found');
+        }
     }
 
     public function showRegister() {

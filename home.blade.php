@@ -23,10 +23,6 @@
 		  </button>
 		  <div class="collapse navbar-collapse" id="navbarNavDropdown">
 			<ul class="navbar-nav">
-			  
-			  <li class="nav-item">
-				<a class="nav-link" href="/createevent"> Create an Event</a>
-			  </li>
 			  @if (Session::has('user_id')) 
 			  <li class="nav-item active">
 				<a class="nav-link" href="/logout"> Logout </a>
@@ -37,6 +33,9 @@
 			  </li>
 			  <li class="nav-item">
 				<a class="nav-link" href="/register"> Register</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="/adminlogin"> Admin Login </a>
 			  </li>
 			  @endif
 			</ul>
@@ -54,6 +53,7 @@
 						<th><strong> Event Type </strong></th>
 						<th><strong> Event Description </strong></th>
 						<th style="text-align:right"><strong> Participation Fee (RM) </strong></th>
+						<th style="text-align:right"><strong> Participants remaining </strong></th>
 						<th><strong> Status </strong></th>
 						<th><strong>  </strong></th>
 					</tr>
@@ -72,6 +72,7 @@
 							  {{ number_format($event->event_fee,2) }}
 							@endif
 							</td>
+							<td style="text-align:right">{{ $participantRemain[$event->id] }}</td>
 							<td>
 							@php
 							  $text = "Join";
@@ -90,7 +91,7 @@
 							    Available
 								@if (Session::has('user_id'))
 								  @foreach ($participantlist as $participant)
-									@if ($event->event_id == $participant->event_id)
+									@if ($event->id == $participant->event_id)
 									  @php
 									  $text = "Unjoin";
 									  $joined = 1;
@@ -112,7 +113,7 @@
 							<td> 
 							<form method="post" action="/">
 								@csrf
-								<input type="hidden" name="event_id" value={{ $event->event_id }} >
+								<input type="hidden" name="event_id" value={{ $event->id }} >
 								<input type="hidden" name="joined" value={{ $joined }}>
 								<input type="hidden" name="participant_id" value={{ $participant_id }}>
 								<input type="submit" class="btn btn-primary" value={{ $text }} {{ $disabled }} /> 
