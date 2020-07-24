@@ -2,7 +2,11 @@
 @extends('layouts.layout')
 
 @section('content')
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-mattBlackLight fixed-top" >
+
       <button class="navbar-toggler sideMenuToggler" type="button">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -46,6 +50,15 @@
       </div>
     </nav>
     <div class="wrapper d-flex">
+
+      <div class="sideMenu">
+        <div class="sidebar">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a href="/admin" class="nav-link px-2">
+                <i class="material-icons icon"> insert_chart </i>
+                <span class="text">Event list</span>
+
       <div class="sideMenu bg-mattBlackLight">
         <div class="sidebar">
           <ul class="navbar-nav">
@@ -53,11 +66,33 @@
               <a href="/admin_eventstatus" class="nav-link px-2">
                 <i class="material-icons icon"> insert_chart </i>
                 <span class="text">Event status</span>
+
               </a>
             </li>
             <li class="nav-item">
               <a href="/admin_createevent" class="nav-link px-2">
                 <i class="material-icons icon"> dashboard </i>
+
+                <span class="text">Create event</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin_community" class="nav-link px-2">
+                <i class="material-icons icon"> insert_chart </i>
+                <span class="text">Community list</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin_createcommunity" class="nav-link px-2">
+                <i class="material-icons icon"> dashboard </i>
+                <span class="text">Create community</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin_users" class="nav-link px-2">
+                <i class="material-icons icon"> person </i>
+                <span class="text">Users</span>
+
                 <span class="text">Event Create</span>
               </a>
             </li>
@@ -71,6 +106,7 @@
               <a href="#" class="nav-link px-2 sideMenuToggler">
                 <i class="material-icons icon expandView "> view_list </i>
                 <span class="text">Resize</span>
+
               </a>
             </li>
           </ul>

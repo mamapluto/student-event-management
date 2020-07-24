@@ -1,7 +1,11 @@
 @extends('layouts.layout');
 
 @section('content')
+
+		<div class="container box" style="background-color:ghostwhite">
+
 		<div class="container box">
+
 			<br>
 			<h3 align="center">Admin Login</h3>
 			<h5 align="center">{{ session('msg')}}</h5>
