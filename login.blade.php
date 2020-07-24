@@ -18,7 +18,11 @@
 @extends('layouts.layout');
 
 @section('content')
+
+		<div class="container box">
+
 		<div class="container box" style="background-color:ghostwhite">
+
 			<br>
 			<h3 align="center">Login</h3>
 			<h5 align="center">{{ session('msg')}}</h5>
@@ -33,10 +37,17 @@
 			 <label>Password</label>
 			 <input type="password" name="password" class="form-control" dusk="password" required />
 			</div>
+
+			<div>
+			 <input type="submit" name="login" class="btn btn-primary" value="Login" />
+			</div>
+			<div style="margin-top:-25px;text-align:right">
+
 			<div class="form-group">
 			 <input type="submit" name="login" class="btn btn-primary" value="Login" />
 			</div>
 			<div style="margin-top:-40px;text-align:right">
+
 		   	 <a class="link" href="/register">Register</a>
 			</div>
 			<h5>{{ session('error')}}</h5>
