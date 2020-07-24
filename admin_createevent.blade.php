@@ -1,9 +1,9 @@
 @extends('layouts.adminlayout')
 
 @section('admin')
-         <div class="container box">
+         <div class="container box" style="background-color:ghostwhite">
           <br>
-		  <h3 align="center">Create an event</h3><br />
+		  <h3 align="center">Create Event</h3><br />
 
 		  <form method="post" action="">
 			{{ csrf_field() }}
@@ -44,6 +44,7 @@
 			 <input type="number" step="0.01" name="fee" class="form-control" />
 			</div>
 			<div class="form-group">
+			 <input type="hidden" name="admin" value="1">
 			 <input type="submit" name="create" class="btn btn-primary" value="Create Event" />
 			</div>
 		  </form>
